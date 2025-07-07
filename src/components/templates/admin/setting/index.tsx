@@ -57,7 +57,7 @@ export default function SettingsPage() {
   return (
     <section className="min-h-screen bg-gray-50px-4 md:px-10 py-10">
       <div className="max-w-lg mx-auto bg-white  p-6 rounded-xl shadow-md">
-        <h2 className="text-2xl font-bold text-gray-800 dark:text-white mb-6 text-center">
+        <h2 className="text-2xl font-bold text-gray-800  mb-6 text-center">
           Paramètres du Compte
         </h2>
 

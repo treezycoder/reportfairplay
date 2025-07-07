@@ -1,37 +1,29 @@
-type User = {
-  email: string;
-  id: string;
-};
+// Mutable test credentials
+let testEmail = "treezyvarrick@gmail.com";
+let testPassword = "677147924";
 
-const admins = [{ email: "treezyvarrick@gmail.com", password: "677147924" }];
-
+// Update admin credentials
 export function updateAdmin(
   currentEmail: string,
   newEmail?: string,
   newPassword?: string
-) {
-  const index = admins.findIndex((admin) => admin.email === currentEmail);
+): boolean {
+  if (currentEmail !== testEmail) return false;
 
-  if (index === -1) return false;
-
-  if (newEmail) admins[index].email = newEmail;
-  if (newPassword) admins[index].password = newPassword;
+  if (newEmail) testEmail = newEmail;
+  if (newPassword) testPassword = newPassword;
 
   return true;
 }
 
+// Fetch user (for login)
 export async function getUser(
   email: string,
   password: string
-): Promise<User | null> {
-  const admin = admins.find(
-    (a) => a.email === email && a.password === password
-  );
+): Promise<{ email: string; id: string } | null> {
+  if (email === testEmail && password === testPassword) {
+    return { email, id: email };
+  }
 
-  if (!admin) return null;
-
-  return {
-    email: admin.email,
-    id: admin.email, // or any unique id if available
-  };
+  return null;
 }
