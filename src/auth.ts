@@ -1,7 +1,7 @@
 import NextAuth from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { authConfig } from "./auth.config";
-import { getUser } from "./lib/fetch/admin";
+import { getUser } from "./lib/data/admins";
 
 export const { auth, handlers, signIn, signOut } = NextAuth({
   ...authConfig,

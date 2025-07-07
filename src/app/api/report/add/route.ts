@@ -28,8 +28,6 @@ export async function POST(req: NextRequest) {
 
   const googleResponse = await googleCheck.json();
 
-  console.info(googleResponse);
-
   if (!googleResponse.success || googleResponse.score < 0.5) {
     return new Response(
       JSON.stringify({ message: "Échec de la vérification reCAPTCHA" }),

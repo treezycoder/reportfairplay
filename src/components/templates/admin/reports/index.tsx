@@ -12,7 +12,6 @@ import { FaClipboardList } from "react-icons/fa";
 import { useReports } from "../context";
 import toast from "react-hot-toast";
 import ClearButton from "../table/ui/clear";
-import DownloadReports from "../table/ui/download";
 
 const ReportsTemplate: React.FC = () => {
   const { reports, setReports, refresh, setRefresh } = useReports();
@@ -77,7 +76,7 @@ const ReportsTemplate: React.FC = () => {
         <div className="flex items-center gap-4">
           <DateFilter reports={reports ?? []} setReports={setReportList} />
           {reportList.length > 1 && <ClearButton />}
-          {reportList.length > 1 && <DownloadReports />}
+          {/* {reportList.length > 1 && <DownloadReports />} */}
         </div>
       </motion.div>
 

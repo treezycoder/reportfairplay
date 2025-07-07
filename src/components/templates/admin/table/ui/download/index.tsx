@@ -1,26 +1,37 @@
 "use client";
 
-import Button from "@/components/reusable/buttons";
 import { HiDocumentDownload } from "react-icons/hi";
 import { useReports } from "../../../context";
-import html2pdf from "html2pdf.js";
+import { useCallback } from "react";
 
 export default function DownloadReports() {
   const { tableRef } = useReports();
 
-  const handleDownload = () => {
+  const handleDownload = useCallback(async () => {
     if (!tableRef.current) return;
-    html2pdf().from(tableRef.current).save("table.pdf");
-  };
+
+    // Dynamically import html2pdf ONLY on the client
+    const html2pdf = (await import("html2pdf.js")).default;
+
+    html2pdf()
+      .from(tableRef.current)
+      .set({
+        margin: 1,
+        filename: "reports.pdf",
+        image: { type: "jpeg", quality: 0.98 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: "in", format: "letter", orientation: "portrait" },
+      })
+      .save();
+  }, [tableRef]);
 
   return (
-    <Button
+    <button
       onClick={handleDownload}
-      title="Exporter en PDF"
-      className="!bg-red-400 !h-[37px] hover:!bg-red-500 !gap-0 md:!gap-2"
-      icon={<HiDocumentDownload />}
+      className="flex items-center gap-2 px-4 py-2 rounded-md bg-blue-500 text-white hover:bg-blue-600"
     >
-      <span className="hidden md:inline">Exporter en PDF</span>
-    </Button>
+      <HiDocumentDownload />
+      Télécharger PDF
+    </button>
   );
 }
