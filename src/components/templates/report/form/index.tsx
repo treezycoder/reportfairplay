@@ -1,8 +1,19 @@
-/* eslint-disable  @typescript-eslint/no-explicit-any */
-
 "use client";
 
-import { useState } from "react";
+/* eslint-disable  @typescript-eslint/no-explicit-any */
+declare global {
+  interface Window {
+    grecaptcha: {
+      ready: (cb: () => void) => void;
+      execute: (
+        siteKey: string,
+        options: { action: string }
+      ) => Promise<string>;
+    };
+  }
+}
+
+import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { FaPaperPlane } from "react-icons/fa";
 import { toast } from "react-hot-toast";
@@ -40,6 +51,15 @@ export default function ReportForm() {
   const [loading, setLoading] = useState(false);
   const [hasSubmitted, setHasSubmitted] = useState(false);
 
+  // Load reCAPTCHA script
+  useEffect(() => {
+    const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
+    const script = document.createElement("script");
+    script.src = `https://www.google.com/recaptcha/api.js?render=${siteKey}`;
+    script.async = true;
+    document.body.appendChild(script);
+  }, []);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setHasSubmitted(true);
@@ -60,17 +80,23 @@ export default function ReportForm() {
     }
 
     try {
-      // await axios.post("/reports", form);
+      // Get reCAPTCHA token
+      const token = await window.grecaptcha.execute(
+        process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!,
+        { action: "submit_report" }
+      );
+
+      // Submit form and token to backend
       const res = await fetch("/api/report/add", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(form),
+        body: JSON.stringify({ ...form, recaptchaToken: token }),
       });
 
       const data = await res.json();
 
       if (!res.ok) {
-        toast.error(data?.message ?? "Error deleting report.");
+        toast.error(data?.message ?? "Une erreur est survenue.");
         return;
       }
 

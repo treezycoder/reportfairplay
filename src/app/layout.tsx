@@ -10,8 +10,8 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "Report FairPlay",
-  description: "Best event invite app",
+  title: "ReportFairPlay",
+  description: "Signaler un acte de Fair-Play",
   icons: {
     icon: "/favicon.ico",
     shortcut: "/favicon.ico",

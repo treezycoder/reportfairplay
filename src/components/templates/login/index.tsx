@@ -24,11 +24,9 @@ export function LoginForm() {
   return (
     <form
       action={formAction}
-      className="w-full mt-8 max-w-sm mx-auto p-6 bg-white dark:bg-gray-900 shadow-md rounded-xl space-y-5"
+      className="w-full mt-8 max-w-sm mx-auto p-6 bg-white shadow-md rounded-xl space-y-5"
     >
-      <h2 className="text-xl font-semibold text-center text-gray-800 dark:text-white">
-        Admin
-      </h2>
+      <h2 className="text-xl font-semibold text-center text-gray-800">Admin</h2>
 
       <div className="space-y-4">
         <InputField

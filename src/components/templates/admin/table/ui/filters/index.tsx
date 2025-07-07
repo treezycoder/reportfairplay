@@ -1,3 +1,5 @@
+/* eslint-disable  @typescript-eslint/no-unused-vars */
+
 "use client";
 
 import { useState, useRef, useEffect } from "react";
@@ -10,6 +12,7 @@ import {
   FaCalendarAlt,
 } from "react-icons/fa";
 import clsx from "clsx";
+import { useDebouncedCallback } from "use-debounce";
 
 interface Props {
   reports: Report[];
@@ -80,6 +83,22 @@ export default function DateFilter({ reports, setReports }: Props) {
     setReports(filtered);
   };
 
+  // const handleCustomDate = useDebouncedCallback(
+  //   (event: React.ChangeEvent<HTMLInputElement>) => {
+  //     setActiveFilter("Custom Date");
+  //     applyFilter("Custom Date");
+  //   },
+  //   3000
+  // );
+
+  const handleCustomYear = useDebouncedCallback(
+    (event: React.ChangeEvent<HTMLInputElement>) => {
+      setActiveFilter("Custom Year");
+      applyFilter("Custom Year");
+    },
+    3000
+  );
+
   return (
     <div
       style={{ width: "116px" }}
@@ -137,8 +156,9 @@ export default function DateFilter({ reports, setReports }: Props) {
                   type="date"
                   className="w-full mt-1 px-2 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
                   value={customDate}
-                  onChange={(e) => {
-                    setCustomDate(e.target.value);
+                  onChange={(event) => {
+                    // handleCustomDate(event);
+                    setCustomDate(event.target.value);
                     setActiveFilter("Custom Date");
                     applyFilter("Custom Date");
                   }}
@@ -153,10 +173,9 @@ export default function DateFilter({ reports, setReports }: Props) {
                   type="number"
                   className="w-full mt-1 px-2 py-1 border border-gray-300 rounded-md focus:outline-none focus:ring focus:ring-blue-500"
                   value={customYear}
-                  onChange={(e) => {
-                    setCustomYear(e.target.value);
-                    setActiveFilter("Custom Year");
-                    applyFilter("Custom Year");
+                  onChange={(event) => {
+                    setCustomYear(event.target.value);
+                    handleCustomYear(event);
                   }}
                   placeholder="e.g. 2023"
                 />

@@ -37,7 +37,7 @@ const ClearButton: React.FC = () => {
 
   return (
     <Button
-      className="cursor-pointer !h-[37px] group "
+      className="cursor-pointer !h-[37px] group !gap-0 md:!gap-2"
       title="Delete Report"
       onClick={handleDelete}
       disabled={loading}
@@ -50,7 +50,7 @@ const ClearButton: React.FC = () => {
         )
       }
     >
-      <span className="hidden md:inline">Clear All</span>
+      <span className="hidden md:inline">Clear Reports</span>
     </Button>
   );
 };

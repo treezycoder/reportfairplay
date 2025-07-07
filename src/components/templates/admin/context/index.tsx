@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useRef, useState } from "react";
 import { Report } from "@/types/reports";
 
 type ReportsContextType = {
@@ -8,6 +8,7 @@ type ReportsContextType = {
   setReports: React.Dispatch<React.SetStateAction<Report[] | null>>;
   refresh: boolean;
   setRefresh: React.Dispatch<React.SetStateAction<boolean>>;
+  tableRef: React.RefObject<HTMLDivElement | null>;
 };
 
 const ReportsContext = createContext<ReportsContextType | undefined>(undefined);
@@ -19,10 +20,11 @@ export const ReportsProvider = ({
 }) => {
   const [reports, setReports] = useState<Report[] | null>(null);
   const [refresh, setRefresh] = useState(false);
+  const tableRef = useRef<HTMLDivElement>(null);
 
   return (
     <ReportsContext.Provider
-      value={{ reports, setReports, refresh, setRefresh }}
+      value={{ reports, setReports, refresh, setRefresh, tableRef }}
     >
       {children}
     </ReportsContext.Provider>

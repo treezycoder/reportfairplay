@@ -4,6 +4,7 @@ import { Report } from "@/types/reports";
 import { AnimatePresence, motion } from "framer-motion";
 import DeleteButton from "./ui/delete";
 import ReportMessage from "./ui/message/button";
+import { useReports } from "../context";
 
 interface Props {
   reports: Report[];
@@ -12,11 +13,15 @@ interface Props {
 
 export default function ReportsTable({ reports, loading = false }: Props) {
   const skeletonRows = Array.from({ length: 5 });
+  const { tableRef } = useReports();
 
   const isEmpty = !loading && reports.length === 0;
 
   return (
-    <div className="overflow-x-auto bg-white rounded-xl border border-gray-200 shadow-md">
+    <div
+      ref={tableRef}
+      className="overflow-x-auto bg-white rounded-xl border border-gray-200 shadow-md"
+    >
       <table className="w-full text-sm text-left text-gray-700">
         <thead className="bg-blue-500 text-white uppercase text-xs tracking-wider">
           <tr>
@@ -57,7 +62,7 @@ export default function ReportsTable({ reports, loading = false }: Props) {
               >
                 <td
                   colSpan={7}
-                  className="text-center px-4 py-6 text-gray-500 dark:text-gray-400"
+                  className="text-center px-4 py-6 text-gray-500 "
                 >
                   Aucun rapport trouvé.
                 </td>
